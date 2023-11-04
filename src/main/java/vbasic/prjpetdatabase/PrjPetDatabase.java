@@ -18,7 +18,7 @@ public class PrjPetDatabase {
     System.out.println("Pet Database.");
     while (choice != 7) {
       System.out.println("What would you like to do?");
-      System.out.println("1) View all pets\n2) Add more pets\n7) Exit program");
+      System.out.println("1) View all pets\n2) Add more pets\n3) Search pets by name\n4) Search pets by age\n7) Exit program");
       //\n3) Update an existing pet\n4) Remove an existing pet\n5) Search pets by name\n6) Search pets by age
       System.out.print("Your choice: ");
       choice = input.nextInt();
@@ -31,17 +31,17 @@ public class PrjPetDatabase {
       case 2:
         PrjPetDatabase.addPets();
         break;
-      case 3:
+      case 5:
         //      PrjPetDatabase.updatePet();
         break;
-      case 4:
+      case 6:
         //    PrjPetDatabase.removePet();
         break;
-      case 5:
-        //  PrjPetDatabase.searchPetsByName();
+      case 3:
+        PrjPetDatabase.searchPetsByName();
         break;
-      case 6:
-        // PrjPetDatabase.searchPetsByAge();
+      case 4:
+        PrjPetDatabase.searchPetsByAge();
         break;
       }
 
@@ -86,7 +86,7 @@ public class PrjPetDatabase {
     printTableFooter(count);
   }
   /*
-    CODE TO UPDATE FOR M2
+    CODE TO UPDATE FOR RELEASE 3
     
     private static void updatePet() {
         System.out.print("Enter the pet ID you want to update: ");
@@ -135,16 +135,16 @@ public class PrjPetDatabase {
       pets = pets2;
         
     }
-   
+   */
     private static void searchPetsByName() {
-      System.out.print("Insert name to Search: ");
+      System.out.print("Insert a name to Search: ");
       String query = input.next();
       printTableHeader();
       int count = 0;
       for (Pet i: pets) {
         if (i != null) {
 
-          if (i.getName().equals(query)) {
+          if (i.getName().equalsIgnoreCase(query)) {
             printTableRow(i.getID(), i.getName(), i.getAge());
             count++;
           }
@@ -156,7 +156,7 @@ public class PrjPetDatabase {
     }
 
     private static void searchPetsByAge() {
-            System.out.print("Enter age to search: ");
+            System.out.print("Insert an age to search: ");
       String query = input.next();
       printTableHeader();
       int count = 0;
@@ -173,7 +173,7 @@ public class PrjPetDatabase {
       printTableFooter(count);
 
     }
-  */
+  
   private static void printTableHeader() {
     System.out.printf("+%3s-%10s-%4s+\n", "---", "----------", "----");
     System.out.printf("|%-3s|%-10s|%-4s|\n", "ID", "NAME", "AGE");
