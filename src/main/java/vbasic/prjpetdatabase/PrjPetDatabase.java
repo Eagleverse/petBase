@@ -31,16 +31,20 @@ public class PrjPetDatabase {
       case 2:
         PrjPetDatabase.addPets();
         break;
-      case 5:
-        //      PrjPetDatabase.updatePet();
-        break;
-      case 6:
-        //    PrjPetDatabase.removePet();
-        break;
       case 3:
-        PrjPetDatabase.searchPetsByName();
+        PrjPetDatabase.showAllPets();
+        System.out.println();
+        PrjPetDatabase.updatePet();
         break;
       case 4:
+        PrjPetDatabase.showAllPets();
+        System.out.println();
+        PrjPetDatabase.removePet();
+        break;
+      case 5:
+        PrjPetDatabase.searchPetsByName();
+        break;
+      case 6:
         PrjPetDatabase.searchPetsByAge();
         break;
       }
@@ -85,95 +89,93 @@ public class PrjPetDatabase {
     }
     printTableFooter(count);
   }
-  /*
-    CODE TO UPDATE FOR RELEASE 3
-    
-    private static void updatePet() {
-        System.out.print("Enter the pet ID you want to update: ");
-        int thisID = input.nextInt();
-        String oldPet =pets[thisID].getName()+" "+pets[thisID].getAge();
-        System.out.println("...");
-      String a = "";
-      String b = "";
 
-      String[] temp = new String[2];
-      while (a != "cancel") {
-        System.out.println("Enter new name and new age:");
-        a = input.next();
-        if (a.equalsIgnoreCase("cancel")) {
-          break;
-        }
-        b = input.next();
-        String CurrPet = a + " " + b;
-        temp = CurrPet.split(" ");
-        String age = temp[1];
-        //Override with new pet object
-        pets[thisID] = new Pet(temp[0], age, thisID);
-        System.out.println(oldPet+" Changed to "+pets[thisID].getName()+" "+pets[thisID].getAge()+".");
+  private static void updatePet() {
+    System.out.print("Enter the pet ID to update: ");
+    int thisID = input.nextInt();
+    String oldPet = pets[thisID].getName() + " " + pets[thisID].getAge();
+    System.out.println("...");
+    String a = "";
+    String b = "";
+
+    String[] temp = new String[2];
+    while (a != "cancel") {
+      System.out.println("Enter new name and new age:");
+      a = input.next();
+      if (a.equalsIgnoreCase("cancel")) {
         break;
       }
+      b = input.next();
+      String CurrPet = a + " " + b;
+      temp = CurrPet.split(" ");
+      String age = temp[1];
+      //Override with new pet object
+      pets[thisID] = new Pet(temp[0], age, thisID);
+      System.out.println(oldPet + " Changed to " + pets[thisID].getName() + " " + pets[thisID].getAge() + ".");
+      break;
     }
-    private static void removePet(){
-        Pet[] pets2 = new Pet[100];
-        System.out.print("Enter the pet ID you want to remove: ");
-        int thisID = input.nextInt();
-        String oldPet =pets[thisID].getName()+" "+pets[thisID].getAge();
-        pets[thisID]=null;
-        System.out.print(oldPet+" was removed.");
-        printTableHeader();
-      int count = 0;
-      for (Pet i: pets) {
-        if (i != null) {
-          pets2[count]=i;
-          i.setID(count);
-          printTableRow(pets2[count].getID(), pets2[count].getName(), pets2[count].getAge());
+  }
+  private static void removePet() {
+    Pet[] pets2 = new Pet[100];
+    System.out.print("Enter the pet ID to remove: ");
+    int thisID = input.nextInt();
+    String oldPet = pets[thisID].getName() + " " + pets[thisID].getAge();
+    pets[thisID] = null;
+    System.out.print(oldPet + " was removed.");
+    printTableHeader();
+    int count = 0;
+    for (Pet i: pets) {
+      if (i != null) {
+        pets2[count] = i;
+        i.setID(count);
+        printTableRow(pets2[count].getID(), pets2[count].getName(), pets2[count].getAge());
+        count++;
+      }
+    }
+    printTableFooter(count);
+    //Replace with new array
+    pets = pets2;
+
+  }
+
+  private static void searchPetsByName() {
+    System.out.print("Insert a name to Search: ");
+    String query = input.next();
+    printTableHeader();
+    int count = 0;
+    for (Pet i: pets) {
+      if (i != null) {
+
+        if (i.getName().equalsIgnoreCase(query)) {
+          printTableRow(i.getID(), i.getName(), i.getAge());
           count++;
         }
       }
-      printTableFooter(count);
-      //Replace with new array
-      pets = pets2;
-        
     }
-   */
-    private static void searchPetsByName() {
-      System.out.print("Insert a name to Search: ");
-      String query = input.next();
-      printTableHeader();
-      int count = 0;
-      for (Pet i: pets) {
-        if (i != null) {
 
-          if (i.getName().equalsIgnoreCase(query)) {
-            printTableRow(i.getID(), i.getName(), i.getAge());
-            count++;
-          }
+    printTableFooter(count);
+
+  }
+
+  private static void searchPetsByAge() {
+    System.out.print("Insert an age to search: ");
+    String query = input.next();
+    printTableHeader();
+    int count = 0;
+    for (Pet i: pets) {
+      if (i != null) {
+
+        if (i.getAge().equals(query)) {
+          printTableRow(i.getID(), i.getName(), i.getAge());
+          count++;
         }
       }
-
-      printTableFooter(count);
-
     }
 
-    private static void searchPetsByAge() {
-            System.out.print("Insert an age to search: ");
-      String query = input.next();
-      printTableHeader();
-      int count = 0;
-      for (Pet i: pets) {
-        if (i != null) {
+    printTableFooter(count);
 
-          if (i.getAge().equals(query)) {
-            printTableRow(i.getID(), i.getName(), i.getAge());
-            count++;
-          }
-        }
-      }
+  }
 
-      printTableFooter(count);
-
-    }
-  
   private static void printTableHeader() {
     System.out.printf("+%3s-%10s-%4s+\n", "---", "----------", "----");
     System.out.printf("|%-3s|%-10s|%-4s|\n", "ID", "NAME", "AGE");
