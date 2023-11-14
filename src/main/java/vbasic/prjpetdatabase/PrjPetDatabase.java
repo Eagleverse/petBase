@@ -18,18 +18,19 @@ public class PrjPetDatabase {
     // TODO Auto-generated method stub
     System.out.println("Pet Database.");
     loadPet();
-    while (choice != 7) {
+    while (choice != 6) {
       System.out.println("What would you like to do?");
-      System.out.println("1) View all pets\n2) Add more pets\n3) Search pets by name\n4) Search pets by age\n5) Exit program");
+      System.out.println("1) View all pets\n2) Add more pets\n3) Remove pet\n4) Search pets by name\n5) Search pets by age\n6) Exit program");
       System.out.print("Your choice: ");
       choice = input.nextInt();
       switch (choice) {
-      case 5 -> {
+      case 6 -> {
             }
       case 1 -> PrjPetDatabase.showAllPets();
       case 2 -> PrjPetDatabase.addPets();
-      case 3 -> PrjPetDatabase.searchPetsByName();
-      case 4 -> PrjPetDatabase.searchPetsByAge();
+      case 3 -> PrjPetDatabase.removePet();
+      case 4 -> PrjPetDatabase.searchPetsByName();
+      case 5 -> PrjPetDatabase.searchPetsByAge();
       }
 
     }
@@ -45,19 +46,37 @@ public class PrjPetDatabase {
 
     String[] temp = new String[2];
     while (!"done".equals(a)) {
+       
       System.out.print("Add pet (name,age): ");
-      a = input.next();
+      a = input.next(); 
       if (a.equalsIgnoreCase("done")) {
         break;
       }
       b = input.next();
+        
+      try{
+      int testB = Integer.parseInt(b);
+      if((1<=testB & testB<=20)==false){
+          System.out.println("Pet age must be between 1 and 20.");
+          continue;
+      }
+      }catch(Exception e){
+          System.out.println("Age must be a number.");
+          continue;
+      }
       String CurrPet = a + " " + b;
       temp = CurrPet.split(" ");
       String age = temp[1];
+      // Add the pet
+      try{
       pets[petCount] = new Pet(temp[0], age, petCount);
       petCount++;
       localPetCount++;
       System.out.println("Added: " + CurrPet + ". PetCount at: " + petCount);
+      }catch(Exception e){
+          System.out.println("Sorry! Pet database is full (Max 5 entries)!");
+          break;
+      }
     }
     System.out.println(localPetCount + " pets added. Total: " + petCount);
   }
@@ -141,6 +160,49 @@ public class PrjPetDatabase {
 
   }
 
+    private static void removePet() {
+    Pet[] pets2 = new Pet[5];
+    System.out.print("Enter the pet ID to remove: ");
+    int thisID = input.nextInt();
+    try{
+    String oldPet = pets[thisID].getName() + " " + pets[thisID].getAge();
+    Pet delPet = pets[thisID];
+    System.out.print(oldPet + " was removed.");
+        
+    for(int i=0, k=0;i<5;i++){
+            if(pets[i]!=delPet & pets[i]!=null){
+                pets2[k]=pets[i];
+                System.out.println("Meow");
+                       
+                k++;
+            }
+        }
+    
+    //reset database
+    pets = new Pet[5]; //Database limit
+    petCount =0;
+    
+    for(Pet i :  pets2){
+        //addPets logic
+        if(i!=null){
+         //   temp = CurrPet.split(" ");
+     // String age = temp[1];
+      pets[petCount] = new Pet(i.getName(),i.getAge(),petCount);
+      petCount++;
+ //     localPetCount++;
+      System.out.println("Added: " + i.getName() + ". PetCount at: " + petCount);
+        }
+       // System.out.println(i.getName());
+    }
+
+
+//    pets = pets2;
+
+    }catch(Exception e){
+        System.out.println("ID must be in database range,");
+    }
+
+  }
   private static void printTableHeader() {
     System.out.printf("+%3s-%10s-%4s+\n", "---", "----------", "----");
     System.out.printf("|%-3s|%-10s|%-4s|\n", "ID", "NAME", "AGE");
@@ -160,7 +222,6 @@ public class PrjPetDatabase {
   /*
 LEGACY  
   
-         ID DUPLICATION BUG
       case 3 -> {
           PrjPetDatabase.showAllPets();
           System.out.println();
@@ -197,29 +258,6 @@ LEGACY
       break;
     }
   }
-  private static void removePet() {
-      //reset PetCount for new list
-      petCount = 0;
-    Pet[] pets2 = new Pet[5];
-    System.out.print("Enter the pet ID to remove: ");
-    int thisID = input.nextInt();
-    String oldPet = pets[thisID].getName() + " " + pets[thisID].getAge();
-    Pet delPet = pets[thisID];
-    System.out.print(oldPet + " was removed.");
-    
-    for(int i=0, k=0;i<5;i++){
-            if(pets[i]!=delPet & pets[i]!=null){
-                pets2[k]=pets[i];
-                System.out.println("Meow");
-                       
-                k++;
-                petCount++;
-            }
-        }
 
-
-    pets = pets2;
-
-  }
 */
 }

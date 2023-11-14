@@ -1,5 +1,2 @@
-Cat,7
-Katalyn,5
-Kitty,13
 Cat,4
 Doge,4
